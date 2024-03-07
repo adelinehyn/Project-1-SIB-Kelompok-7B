@@ -1,17 +1,17 @@
 import json
 from modules.book import Book
 from modules.magazine import Magazine
-from modules.cd import Cd
 from modules.dvd import Dvd
+from modules.cd import Cd
 from modules.catalog import Catalog
 
-f = open('files/catalog.json')
-data_json = json.load(f)
+with open('files/catalog.json') as f:
+    data_json = json.load(f)
 
 books = []
 magazines = []
-cds = []
 dvds = []
+cds = []
 
 for item in data_json:
     if item['source'] == 'book':
@@ -35,15 +35,6 @@ for item in data_json:
                 issue=item['issue']
             )
         )
-    elif item['source'] == 'cd':
-        cds.append(
-            Cd(
-                title=item['title'],
-                subject=item['subject'],
-                upc=item['upc'],
-                artist=item['artist']
-            )
-        )
     elif item['source'] == 'dvd':
         dvds.append(
             Dvd(
@@ -55,10 +46,23 @@ for item in data_json:
                 genre=item['genre']
             )
         )
+    elif item['source'] == 'cd':
+        cds.append(
+            Cd(
+                title=item['title'],
+                subject=item['subject'],
+                upc=item['upc'],
+                artist=item['artist'],
+            )
+        )
 
-catalog_all = [books, magazines, cds, dvds]
+
+catalog_all = [books, magazines, dvds, cds]
+
+
 input_search = 'test'
 results = Catalog(catalog_all).search(input_search)
+print(results)
 
 for index, result in enumerate(results):
-    print(f'result ke-{index+1} | {result}')
+    print(f'result ke- {index+1} | {result}')
